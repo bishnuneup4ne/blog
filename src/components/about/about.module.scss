@@ -1,0 +1,56 @@
+.avatar {
+  position: relative;
+}
+
+.sideCard {
+  border: 1px solid var(--site-hairline);
+  border-radius: var(--site-radius);
+  background: var(--site-tile);
+  margin-right: 32px;
+}
+
+.sectionTitle {
+  margin: 72px 0 22px;
+  padding-top: 28px;
+  border-top: 1px solid var(--site-hairline);
+  font-size: clamp(1.65rem, 2.6vw, 2rem);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  color: var(--site-fg);
+}
+
+.sectionTitle:first-of-type {
+  margin-top: 8px;
+  padding-top: 0;
+  border-top: none;
+}
+
+.blockAlign {
+  align-items: center;
+}
+
+.textAlign {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .sideCard {
+    margin-right: 0;
+  }
+
+  .sectionTitle {
+    margin-top: 56px;
+  }
+}
+
+:global([data-theme="light"]) {
+  .sideCard {
+    border-color: var(--site-hairline);
+    background: var(--site-tile);
+  }
+
+  .sectionTitle {
+    border-top-color: var(--site-hairline);
+  }
+}

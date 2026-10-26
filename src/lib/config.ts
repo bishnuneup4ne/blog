@@ -1,0 +1,188 @@
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
+import { supabase } from "@/lib/supabase";
+import { Person, Social, Newsletter, Home, About, Blog, Gallery } from "@/types";
+import type { ReactNode } from "react";
+import { DATA_REVALIDATE_SECONDS } from "@/lib/cache";
+
+/** Coerce DB/JSON values to plain text — avoids React #62 when objects are rendered as children. */
+function toTextNode(value: unknown, fallback: string): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  if (value == null || typeof value === "boolean") return fallback;
+  return fallback;
+}
+
+function toReactNode(value: unknown, fallback: ReactNode): ReactNode {
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (value == null || typeof value === "object" || typeof value === "boolean") {
+    return typeof fallback === "string" ? fallback : toTextNode(fallback, "");
+  }
+  return value as ReactNode;
+}
+
+/** An empty or placeholder `social_links` array should not wipe the footer. */
+function normalizeSocial(value: unknown): Social {
+  if (!Array.isArray(value)) return defaultConfig.social;
+  const valid = value.filter(
+    (item): item is Social[number] =>
+      Boolean(
+        item &&
+          typeof item === "object" &&
+          typeof (item as Social[number]).name === "string" &&
+          typeof (item as Social[number]).link === "string" &&
+          (item as Social[number]).link.trim() &&
+          (item as Social[number]).link.trim() !== "#",
+      ),
+  );
+  return valid.length ? valid : defaultConfig.social;
+}
+
+export function normalizeSiteConfig(config: typeof defaultConfig) {
+  const homeDefault = defaultConfig.home;
+  return {
+    ...config,
+    newsletter: {
+      ...config.newsletter,
+      description: toReactNode(
+        config.newsletter.description,
+        defaultConfig.newsletter.description,
+      ),
+    },
+    home: {
+      ...config.home,
+      headline: toReactNode(config.home.headline, homeDefault.headline),
+      subline: toReactNode(config.home.subline, homeDefault.subline),
+      featured: {
+        ...config.home.featured,
+        title: toReactNode(config.home.featured?.title, homeDefault.featured.title),
+      },
+    },
+  };
+}
+
+// Default fallback configuration in case database fetch fails or is empty
+export const defaultConfig = {
+  person: {
+    firstName: "bishnuneup4ne",
+    lastName: "",
+    name: "bishnuneup4ne",
+    role: "Security Newsroom",
+    avatar: "/images/avatar.jpg",
+    email: "bishnuneup4ne@gmail.com",
+    location: "Asia/Kathmandu",
+    languages: ["English"],
+  } as Person,
+  newsletter: {
+    display: true,
+    title: "Subscribe to bishnuneup4ne's Newsletter",
+    description: "My weekly newsletter about creativity and engineering",
+  } as Newsletter,
+  social: [
+    {
+      name: "GitHub",
+      icon: "github",
+      link: "https://github.com/bishnuneup4ne",
+      essential: true,
+    },
+    {
+      name: "LinkedIn",
+      icon: "linkedin",
+      link: "https://www.linkedin.com/in/bishnuneup4ne/",
+      essential: true,
+    },
+    {
+      name: "Threads",
+      icon: "threads",
+      link: "https://www.threads.com/@bishnuneup4ne",
+      essential: true,
+    },
+    {
+      name: "Email",
+      icon: "email",
+      link: "mailto:bishnuneup4ne@gmail.com",
+      essential: true,
+    },
+  ] as Social,
+  home: {
+    path: "/blogs",
+    image: "/images/avatar.jpg",
+    label: "Home",
+    title: "bishnuneup4ne's Portfolio",
+    description: "Portfolio website showcasing my work as a Security Newsroom",
+    headline: "Building bridges between design and code",
+    featured: {
+      display: true,
+      title: "Featured writing",
+      href: "/blogs",
+    },
+    subline: "Independent, focused, and technical. We publish writeups, notebook entries, and practical analysis with an emphasis on clarity and depth.",
+  } as Home,
+  about: {
+    path: "/about",
+    label: "About",
+    title: "About – bishnuneup4ne",
+    description: "Meet bishnuneup4ne, Security Newsroom from Asia/Kathmandu",
+    tableOfContent: { display: true, subItems: false },
+    avatar: { display: true },
+    calendar: { display: true, link: "https://cal.com" },
+    intro: {
+      display: true,
+      title: "Introduction",
+      description: "bishnuneup4ne Newsletter brings you professional insights into security, technology, and digital innovation.",
+    },
+    work: { display: true, title: "Work Experience", experiences: [] },
+    studies: { display: true, title: "Studies", institutions: [] },
+    technical: { display: true, title: "Technical skills", skills: [] },
+  } as About,
+  blog: {
+    path: "/blogs",
+    label: "Blog",
+    title: "Writing about design and tech...",
+    description: "Read what bishnuneup4ne has been up to recently",
+  } as Blog,
+  gallery: {
+    path: "/gallery",
+    label: "Gallery",
+    title: "Photo gallery – bishnuneup4ne",
+    description: "A photo collection by bishnuneup4ne",
+    images: [],
+  } as Gallery,
+};
+
+async function fetchSiteConfigFromDb() {
+  try {
+    const { data, error } = await supabase
+      .from("site_config")
+      .select("person, newsletter, social_links, home, about, blog, gallery")
+      .eq("id", 1)
+      .single();
+
+    if (error || !data) {
+      console.warn("Using default config due to error or missing data:", error?.message);
+      return normalizeSiteConfig(defaultConfig);
+    }
+
+    return normalizeSiteConfig({
+      person: (data.person as Person) || defaultConfig.person,
+      newsletter: (data.newsletter as Newsletter) || defaultConfig.newsletter,
+      social: normalizeSocial(data.social_links),
+      home: (data.home as Home) || defaultConfig.home,
+      about: (data.about as About) || defaultConfig.about,
+      blog: (data.blog as Blog) || defaultConfig.blog,
+      gallery: (data.gallery as Gallery) || defaultConfig.gallery,
+    });
+  } catch (error) {
+    console.error("Failed to fetch site config:", error);
+    return normalizeSiteConfig(defaultConfig);
+  }
+}
+
+const getCachedSiteConfig = unstable_cache(
+  fetchSiteConfigFromDb,
+  ["site-config"],
+  { revalidate: DATA_REVALIDATE_SECONDS, tags: ["site-config"] },
+);
+
+/** Cached site config — one Supabase round-trip per minute, deduped per request. */
+export const getSiteConfig = cache(getCachedSiteConfig);

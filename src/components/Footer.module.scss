@@ -1,0 +1,50 @@
+@use "./breakpoints.scss" as breakpoints;
+
+.footer {
+  position: relative;
+}
+
+.links {
+  align-items: center;
+
+  a,
+  button {
+    transition:
+      color 0.16s ease,
+      background 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  a:hover,
+  button:hover {
+    color: var(--site-fg, #fff);
+    background: color-mix(in srgb, var(--site-fg) 10%, transparent);
+    transform: translateY(-1px);
+  }
+}
+
+a.rss {
+  padding: 4px 9px;
+  border: 1px solid var(--site-hairline, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--site-muted, #9898a1);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--site-fg, #fff);
+    border-color: color-mix(in srgb, var(--site-fg) 32%, transparent);
+  }
+}
+
+@media (max-width: breakpoints.$s) {
+  .mobile {
+    text-align: center;
+  }
+
+  a.rss {
+    margin-top: 2px;
+  }
+}

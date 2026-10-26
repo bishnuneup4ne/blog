@@ -1,0 +1,135 @@
+.page {
+  width: 100%;
+}
+
+/* Title, index and filters share the left rail; the card wall owns the rest. */
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: clamp(24px, 2.5vw, 44px);
+  align-items: start;
+}
+
+/* Full-height rule turns the rail into a proper contents column. */
+.rail {
+  align-self: stretch;
+  padding-right: clamp(20px, 2.4vw, 36px);
+  border-right: 1px solid var(--site-hairline);
+}
+
+.side {
+  position: sticky;
+  top: 104px;
+}
+
+.hero {
+  margin: 0 0 30px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 2.3vw, 2.7rem);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  color: var(--site-fg);
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 13px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--site-muted);
+  text-wrap: pretty;
+}
+
+.count {
+  margin: 16px 0 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--site-muted);
+
+  strong {
+    font-weight: 500;
+    color: var(--site-fg);
+  }
+}
+
+.main {
+  min-width: 0;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--site-hairline);
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Takes the base pill from page-shell but grows into the result column. */
+.search.search {
+  flex: 1 1 240px;
+  max-width: 380px;
+}
+
+.results {
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .rail {
+    padding-right: 0;
+    border-right: none;
+  }
+
+  .side {
+    position: static;
+  }
+
+  .title {
+    font-size: clamp(2.4rem, 6vw, 3.2rem);
+  }
+
+  .lead {
+    max-width: 52ch;
+  }
+
+  .toolbar {
+    margin-bottom: 22px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    margin-bottom: 24px;
+  }
+
+  .toolbar {
+    align-items: stretch;
+  }
+
+  .search.search {
+    flex-basis: 100%;
+    max-width: none;
+  }
+}

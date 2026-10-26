@@ -1,0 +1,96 @@
+.menu {
+  position: absolute;
+  z-index: 30;
+  min-width: 260px;
+  max-width: 340px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+  border-radius: 12px;
+  background: var(--surface-background-strong, rgba(20, 20, 22, 0.96));
+  color: var(--neutral-on-background-strong, #fff);
+  border: 1px solid var(--neutral-alpha-weak, rgba(255, 255, 255, 0.1));
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-family: inherit;
+  pointer-events: auto;
+}
+
+.empty {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--neutral-on-background-weak, rgba(255, 255, 255, 0.5));
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 120ms ease;
+}
+
+.item:hover,
+.itemActive {
+  background: var(--neutral-alpha-weak, rgba(255, 255, 255, 0.06));
+}
+
+.itemActive {
+  box-shadow: inset 2px 0 0 var(--brand-background-strong, #d33);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--neutral-alpha-weak, rgba(255, 255, 255, 0.1));
+  background: var(--surface-background-weak, rgba(255, 255, 255, 0.04));
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--neutral-on-background-medium, rgba(255, 255, 255, 0.75));
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.description {
+  font-size: 11px;
+  color: var(--neutral-on-background-weak, rgba(255, 255, 255, 0.55));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hint {
+  padding: 6px 10px 4px;
+  font-size: 10px;
+  color: var(--neutral-on-background-weak, rgba(255, 255, 255, 0.4));
+  border-top: 1px solid var(--neutral-alpha-weak, rgba(255, 255, 255, 0.06));
+  margin-top: 4px;
+}
+
+.slashAnchor {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+}

@@ -1,0 +1,33 @@
+.pill {
+  transition: border-color 0.2s ease;
+
+  &:focus-within {
+    border-color: var(--brand-border-strong);
+  }
+}
+
+.pillInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.pillBtn {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--static-space-48);
+  align-self: center;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 767px) {
+  .pill {
+    border: none;
+    padding: 0;
+    gap: var(--static-space-8);
+  }
+
+  .pillInput,
+  .pillBtn {
+    width: 100%;
+  }
+}

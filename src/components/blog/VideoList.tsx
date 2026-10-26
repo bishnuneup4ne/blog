@@ -1,0 +1,52 @@
+import { getSupabasePostsWithContent } from "@/utils/supabasePosts";
+import { formatCalendarDate } from "@/utils/formatDate";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { VideoGalleryClient } from "./VideoGalleryClient";
+
+export async function VideoList({ category = "Personal" }: { category?: string }) {
+  const posts = await getSupabasePostsWithContent();
+
+  const videos = posts
+    .filter((p) => {
+      const cat = (p.metadata as { category?: string }).category?.toLowerCase();
+      const video = (p.metadata as { video_url?: string }).video_url?.trim();
+      return video && (!category || cat === category.toLowerCase());
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.metadata.publishedAt).getTime() -
+        new Date(a.metadata.publishedAt).getTime(),
+    );
+
+  if (videos.length === 0) {
+    return (
+      <EmptyState
+        title="No videos yet"
+        description="Video posts will show up here as soon as they are published."
+      />
+    );
+  }
+
+  const items = videos.map((post) => {
+    const meta = post.metadata as {
+      category?: string;
+      video_url?: string;
+      tags?: string[];
+    };
+    const tags = meta.tags || [];
+
+    return {
+      slug: post.slug,
+      title: post.metadata.title,
+      date: formatCalendarDate(post.metadata.publishedAt),
+      summary: post.metadata.summary || "",
+      content: post.content || "",
+      videoUrl: meta.video_url!,
+      image: post.metadata.image || "",
+      category: meta.category || "",
+      tags: [...new Set(tags)],
+    };
+  });
+
+  return <VideoGalleryClient items={items} />;
+};

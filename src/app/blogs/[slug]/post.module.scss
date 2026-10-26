@@ -1,0 +1,221 @@
+.article {
+  width: 100%;
+}
+
+.head {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.cover {
+  margin: clamp(28px, 4vw, 44px) 0 clamp(40px, 6vw, 64px);
+  overflow: hidden;
+  border: 1px solid var(--site-hairline);
+  border-radius: var(--site-radius);
+  background: var(--site-tile);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.videoBlock {
+  width: 100%;
+  margin: 0 auto 2.5rem;
+  overflow: hidden;
+  border: 1px solid var(--site-hairline);
+  border-radius: 18px;
+  background: var(--site-tile);
+}
+
+.body {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  letter-spacing: -0.008em;
+  color: #d1d1d6;
+}
+
+.article .body :global(p) {
+  margin: 0 0 1.5em;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #d1d1d6;
+  text-wrap: pretty;
+}
+
+.article .body :global(h1),
+.article .body :global(h2),
+.article .body :global(h3),
+.article .body :global(h4),
+.article .body :global(h5) {
+  margin: 2.75rem 0 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.032em;
+  color: var(--site-fg);
+  text-wrap: balance;
+}
+
+.article .body :global(h1) {
+  margin-top: 2.5rem;
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+}
+
+.article .body :global(h2) {
+  margin-top: 3rem;
+  font-size: clamp(1.6rem, 2.4vw, 1.95rem);
+}
+
+.article .body :global(h3) {
+  margin-top: 2.25rem;
+  font-size: 1.375rem;
+  letter-spacing: -0.024em;
+}
+
+.article .body :global(h4),
+.article .body :global(h5) {
+  margin-top: 1.9rem;
+  font-size: 1.125rem;
+  letter-spacing: -0.018em;
+}
+
+.article .body :global(ul),
+.article .body :global(ol) {
+  margin: 0 0 1.5em;
+  padding-left: 1.35em;
+}
+
+.article .body :global(li) {
+  margin: 0.5em 0;
+  color: #d1d1d6;
+}
+
+.article .body :global(li)::marker {
+  color: var(--site-muted);
+}
+
+.article .body :global(strong) {
+  color: var(--site-fg);
+  font-weight: 600;
+}
+
+.article .body :global(blockquote) {
+  margin: 2rem 0;
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  border-left: 3px solid var(--site-hairline);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: -0.012em;
+  color: #ececf1;
+}
+
+.article .body :global(blockquote p) {
+  margin-bottom: 0.75em;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.article .body :global(code) {
+  padding: 0.15em 0.4em;
+  border: 1px solid var(--site-hairline);
+  border-radius: 6px;
+  background: var(--site-tile);
+  font-size: 0.875em;
+}
+
+.article .body :global(pre) {
+  margin: 0 0 1.75em;
+  padding: 20px;
+  overflow-x: auto;
+  border: 1px solid var(--site-hairline);
+  border-radius: 14px;
+  background: var(--site-tile);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.article .body :global(pre code) {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+}
+
+.article .body :global(img) {
+  border-radius: 14px;
+}
+
+.article .body :global(hr) {
+  width: 100%;
+  margin: 3rem 0;
+  border: none;
+  border-top: 1px solid var(--site-hairline);
+}
+
+.article .body :global(table) {
+  width: 100%;
+  margin: 0 0 1.75em;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.article .body :global(th),
+.article .body :global(td) {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--site-hairline);
+  text-align: left;
+}
+
+.more {
+  margin-top: clamp(56px, 7vw, 88px);
+  padding-top: 12px;
+  border-top: 1px solid var(--site-hairline);
+}
+
+:global([data-theme="light"]) {
+  .body {
+    color: #3f3f46;
+  }
+
+  .article .body :global(p),
+  .article .body :global(li) {
+    color: #3f3f46;
+  }
+
+  .article .body :global(blockquote) {
+    color: #27272a;
+  }
+
+  .cover {
+    background: var(--site-tile);
+  }
+}
+
+@media (max-width: 767px) {
+  .body {
+    font-size: 1.0625rem;
+  }
+
+  .article .body :global(p) {
+    font-size: 1.0625rem;
+  }
+
+  .cover {
+    margin: 24px 0 40px;
+    border-radius: 16px;
+  }
+
+  .article .body :global(h2) {
+    margin-top: 2.5rem;
+  }
+}

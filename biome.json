@@ -1,0 +1,63 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": [".next/**", "node_modules/**", "public/**"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "off",
+        "useButtonType": "off",
+        "useFocusableInteractive": "off",
+        "useSemanticElements": "off",
+        "noLabelWithoutControl": "off",
+        "useAltText": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off",
+        "useJsxKeyInIterable": "off"
+      },
+      "complexity": {
+        "noUselessFragments": "off",
+        "noBannedTypes": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "useTopLevelRegex": "off"
+      },
+      "style": {
+        "useImportType": "off",
+        "useTemplate": "off",
+        "useConst": "off",
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noImplicitAnyLet": "off",
+        "noArrayIndexKey": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  }
+}

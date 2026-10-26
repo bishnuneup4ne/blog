@@ -1,0 +1,18 @@
+.cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.25, 1);
+  }
+}
+
+:global([data-theme="light"]) .cover {
+  background: rgba(0, 0, 0, 0.05);
+}
